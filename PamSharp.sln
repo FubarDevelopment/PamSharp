@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		FubarDev.PamSharp.ruleset = FubarDev.PamSharp.ruleset
+		GitVersion.yml = GitVersion.yml
 		Global.props = Global.props
 		PackageLibrary.props = PackageLibrary.props
 		README.md = README.md
@@ -23,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{1420
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FubarDev.PamSharp.Tests", "test\FubarDev.PamSharp.Tests\FubarDev.PamSharp.Tests.csproj", "{81EF7EA9-99B1-4DA9-803E-3B0FB3084100}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginSharp", "samples\LoginSharp\LoginSharp.csproj", "{2313DBDF-8C25-42A6-BB34-23AA59B9F91E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginSharp", "samples\LoginSharp\LoginSharp.csproj", "{2313DBDF-8C25-42A6-BB34-23AA59B9F91E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
