@@ -12,7 +12,6 @@
     <PackageReleaseNotes>https://github.com/FubarDevelopment/PamSharp/releases</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/FubarDevelopment/PamSharp.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <MinClientVersion>3.5</MinClientVersion>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)FubarDev.PamSharp.ruleset</CodeAnalysisRuleSet>
     <NullableContextOptions>enable</NullableContextOptions>
