@@ -17,8 +17,6 @@ namespace FubarDev.PamSharp
     /// </summary>
     public class PamService : IPamService
     {
-        private readonly IPamMessageHandler _messageHandler;
-
         private readonly ILogger<PamService>? _logger;
 
         private readonly PamSessionConfiguration _configuration;
@@ -27,23 +25,22 @@ namespace FubarDev.PamSharp
         /// Initializes a new instance of the <see cref="PamService"/> class.
         /// </summary>
         /// <param name="options">The options for the PAM service.</param>
-        /// <param name="messageHandler">The message handler.</param>
         /// <param name="logger">The logger.</param>
         public PamService(
             IOptions<PamSessionConfiguration> options,
-            IPamMessageHandler messageHandler,
             ILogger<PamService>? logger = null)
         {
-            _messageHandler = messageHandler;
             _logger = logger;
             _configuration = options.Value;
         }
 
         /// <inheritdoc/>
-        public IPamTransaction Start(string? user = null)
+        public IPamTransaction Start(
+            IPamMessageHandler messageHandler,
+            string? user = null)
         {
-            var conversationHandler = _configuration.CreateMessaging?.Invoke(_messageHandler)
-                ?? new PamConversationHandler(_messageHandler);
+            var conversationHandler = _configuration.CreateMessaging?.Invoke(messageHandler)
+                ?? new PamConversationHandler(messageHandler);
 
             PamStatus ConversationCallback(int messageCount, IntPtr messages, out IntPtr responseArrayPtr, IntPtr appDataPtr)
             {

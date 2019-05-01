@@ -27,8 +27,9 @@ namespace FubarDev.PamSharp.Tests
             IPamTransaction pamTransaction;
             using (var scope = _serviceProvider.CreateScope())
             {
+                var messageHandler = scope.ServiceProvider.GetRequiredService<IPamMessageHandler>();
                 var service = scope.ServiceProvider.GetRequiredService<IPamService>();
-                pamTransaction = service.Start();
+                pamTransaction = service.Start(messageHandler);
             }
 
             Assert.NotEqual(IntPtr.Zero, pamTransaction.Handle);
@@ -43,8 +44,9 @@ namespace FubarDev.PamSharp.Tests
         {
             using (var scope = _serviceProvider.CreateScope())
             {
+                var messageHandler = scope.ServiceProvider.GetRequiredService<IPamMessageHandler>();
                 var service = scope.ServiceProvider.GetRequiredService<IPamService>();
-                using (service.Start())
+                using (service.Start(messageHandler))
                 {
                     // Do nothing
                 }

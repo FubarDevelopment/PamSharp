@@ -14,12 +14,13 @@ The following example creates a PAM transaction and tries to authenticate a user
 // Create the service
 var pamService = new PamService(
     // The service options
-    new OptionsWrapper<PamSessionConfiguration>(new PamSessionConfiguration()),
-    // The PAM message handler
-    new ConsoleMessageHandler());
+    new OptionsWrapper<PamSessionConfiguration>(new PamSessionConfiguration()));
+
+// The PAM message handler
+var messageHandler = new ConsoleMessageHandler();
 
 // Create a PAM transaction
-using (var pamTransaction = pamService.Start())
+using (var pamTransaction = pamService.Start(messageHandler))
 {
     // Change the user prompt
     pamTransaction.UserPrompt = "my customized user login prompt: ";

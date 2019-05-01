@@ -12,8 +12,11 @@ namespace FubarDev.PamSharp
         /// <summary>
         /// Initializes a PAM transaction.
         /// </summary>
+        /// <param name="messageHandler">The message handler.</param>
         /// <param name="user">The user name.</param>
         /// <returns>The new PAM transaction.</returns>
-        IPamTransaction Start(string? user = null);
+        IPamTransaction Start(
+            IPamMessageHandler messageHandler,
+            string? user = null);
     }
 }

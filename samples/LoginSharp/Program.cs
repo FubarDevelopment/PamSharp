@@ -57,7 +57,8 @@ namespace LoginSharp
             while (true)
             {
                 var service = services.GetRequiredService<IPamService>();
-                using var transaction = service.Start();
+                var messageHandler = services.GetRequiredService<IPamMessageHandler>();
+                using var transaction = service.Start(messageHandler);
                 transaction.UserPrompt = $"{hostName} login: ";
                 transaction.UserName = null;
 
