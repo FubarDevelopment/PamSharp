@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "settings": {
+    "documentationRules": {
+      "companyName": "Fubar Development Junker"
+    },
+    "orderingRules": {
+        "usingDirectivesPlacement": "outsideNamespace"
+    },
+    "layoutRules": {
+        "newlineAtEndOfFile": "require"
+    }
+  }
+}

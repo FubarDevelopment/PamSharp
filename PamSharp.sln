@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{20C86EBB-57DC-4F93-A904-751313B9A991}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A63D71BF-AFD1-4848-982E-0CA346FEC115}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FubarDev.PamSharp", "src\FubarDev.PamSharp\FubarDev.PamSharp.csproj", "{E85F37CB-DB9C-4282-A128-3102D4E1D894}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7ACF347F-3D12-424B-92B0-68DEC0AE3065}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		FubarDev.PamSharp.ruleset = FubarDev.PamSharp.ruleset
+		Global.props = Global.props
+		PackageLibrary.props = PackageLibrary.props
+		README.md = README.md
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{1420883A-FB01-480B-BC4B-9F58D972AD47}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FubarDev.PamSharp.Tests", "test\FubarDev.PamSharp.Tests\FubarDev.PamSharp.Tests.csproj", "{81EF7EA9-99B1-4DA9-803E-3B0FB3084100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginSharp", "samples\LoginSharp\LoginSharp.csproj", "{2313DBDF-8C25-42A6-BB34-23AA59B9F91E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E85F37CB-DB9C-4282-A128-3102D4E1D894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E85F37CB-DB9C-4282-A128-3102D4E1D894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E85F37CB-DB9C-4282-A128-3102D4E1D894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E85F37CB-DB9C-4282-A128-3102D4E1D894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81EF7EA9-99B1-4DA9-803E-3B0FB3084100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81EF7EA9-99B1-4DA9-803E-3B0FB3084100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81EF7EA9-99B1-4DA9-803E-3B0FB3084100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81EF7EA9-99B1-4DA9-803E-3B0FB3084100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2313DBDF-8C25-42A6-BB34-23AA59B9F91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2313DBDF-8C25-42A6-BB34-23AA59B9F91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2313DBDF-8C25-42A6-BB34-23AA59B9F91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2313DBDF-8C25-42A6-BB34-23AA59B9F91E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E85F37CB-DB9C-4282-A128-3102D4E1D894} = {20C86EBB-57DC-4F93-A904-751313B9A991}
+		{81EF7EA9-99B1-4DA9-803E-3B0FB3084100} = {A63D71BF-AFD1-4848-982E-0CA346FEC115}
+		{2313DBDF-8C25-42A6-BB34-23AA59B9F91E} = {1420883A-FB01-480B-BC4B-9F58D972AD47}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {60D8FBD6-7AC9-4C68-AE5F-005D62224C44}
+	EndGlobalSection
+EndGlobal

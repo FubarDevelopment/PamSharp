@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Product>PAM for .NET</Product>
+    <Copyright>Fubar Development Junker 2019</Copyright>
+    <Company>Fubar Development Junker</Company>
+    <Authors>Fubar Development Junker</Authors>
+    <PackageProjectUrl>https://github.com/FubarDevelopment/PamSharp</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>https://github.com/FubarDevelopment/PamSharp/releases</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/FubarDevelopment/PamSharp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <MinClientVersion>3.5</MinClientVersion>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)FubarDev.PamSharp.ruleset</CodeAnalysisRuleSet>
+    <NullableContextOptions>enable</NullableContextOptions>
+    <NoWarn>SA1636;SA1641;$(NoWarn)</NoWarn>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+    <NullableContextOptions>enable</NullableContextOptions>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

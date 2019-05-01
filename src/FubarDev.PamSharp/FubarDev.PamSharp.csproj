@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <Description>PAM for .NET</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn Condition=" '$(Configuration)' != 'Release' ">$(NoWarn);SA1401</NoWarn>
+  </PropertyGroup>
+
+  <Import Project="../../PackageLibrary.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+  </ItemGroup>
+</Project>

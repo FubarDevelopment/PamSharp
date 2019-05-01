@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LoginSharp": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    }
+  }
+}
