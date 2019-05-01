@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
-    <Description>PAM for .NET</Description>
+    <Description>PAM bindings for .NET</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn Condition=" '$(Configuration)' != 'Release' ">$(NoWarn);SA1401</NoWarn>
   </PropertyGroup>
