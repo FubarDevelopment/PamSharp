@@ -16,7 +16,7 @@
   <ItemGroup>
     <None Include="app.config">
       <Pack>true</Pack>
-      <PackagePath>lib/$(TargetFramework)/$(AssemblyName).dll.config</PackagePath>
+      <PackagePath>lib/$(TargetFramework)/$(AssemblyName).dll.config;content/$(AssemblyName).dll.config;contentFiles/any/$(TargetFramework)/$(AssemblyName).dll.config</PackagePath>
     </None>
   </ItemGroup>
 </Project>
