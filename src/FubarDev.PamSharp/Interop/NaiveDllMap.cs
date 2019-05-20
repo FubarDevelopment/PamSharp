@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
+
 using FubarDev.PamSharp.DllMap;
 
 namespace FubarDev.PamSharp.Interop
@@ -18,12 +18,6 @@ namespace FubarDev.PamSharp.Interop
     /// </summary>
     internal static class NaiveDllMap
     {
-        private static readonly IReadOnlyDictionary<string, OSPlatform> _wellKnownOsPlatforms =
-            typeof(OSPlatform)
-                .GetProperties(BindingFlags.GetProperty | BindingFlags.Static | BindingFlags.Public)
-                .Select(x => (OSPlatform)x.GetValue(null))
-                .ToDictionary(x => x.ToString(), StringComparer.OrdinalIgnoreCase);
-
         /// <summary>
         /// Try to map and load a native library.
         /// </summary>
@@ -34,13 +28,18 @@ namespace FubarDev.PamSharp.Interop
         /// <returns>A tuple that indicates success/failure and the returned value by the probe function.</returns>
         public static (bool success, T result) MapAndLoad<T>(string libraryName, string dllConfigPath, Func<string, (bool succes, T result)> probeFunc)
         {
+            IEnumerable<DllMapItem> dllMapItems;
             if (!File.Exists(dllConfigPath))
             {
-                return probeFunc(libraryName);
+                dllMapItems = GetDefaultDllMap();
+            }
+            else
+            {
+                var root = XElement.Load(dllConfigPath);
+                dllMapItems = DllMapItem.LoadDllMap(root.Elements("dllmap"));
             }
 
-            var root = XElement.Load(dllConfigPath);
-            var items = Filter(DllMapItem.LoadDllMap(root.Elements("dllmap")), libraryName);
+            var items = Filter(dllMapItems, libraryName);
             return MapAndLoad(items, probeFunc)
                 ?? probeFunc(libraryName);
         }
@@ -82,6 +81,20 @@ namespace FubarDev.PamSharp.Interop
                 let operatingSystems = item.OperatingSystems
                 where operatingSystems.Length == 0 || operatingSystems.Any(os => os.IsMatch())
                 select item;
+        }
+
+        private static IEnumerable<DllMapItem> GetDefaultDllMap()
+        {
+            return new[]
+            {
+                new DllMapItem("pam", "libpam.so.0", new[] {new DllMapOsSelection(false, OSPlatform.Linux),}),
+                new DllMapItem("pam", "libpam.so", new[] {new DllMapOsSelection(false, OSPlatform.Linux),}),
+                new DllMapItem("pam", "libpam.so.0", new[] {new DllMapOsSelection(false, OSPlatform.FreeBSD),}),
+                new DllMapItem("pam", "libpam.so", new[] {new DllMapOsSelection(false, OSPlatform.FreeBSD),}),
+                new DllMapItem("pam", "libpam.2.dylib", new[] {new DllMapOsSelection(false, OSPlatform.OSX),}),
+                new DllMapItem("pam", "libpam.1.dylib", new[] {new DllMapOsSelection(false, OSPlatform.OSX),}),
+                new DllMapItem("pam", "libpam.dylib", new[] {new DllMapOsSelection(false, OSPlatform.OSX),}),
+            };
         }
     }
 }
