@@ -21,6 +21,8 @@ namespace FubarDev.PamSharp
 
         private readonly PamSessionConfiguration _configuration;
 
+        private readonly IPamInterop _interop = PamInteropFactory.Create();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PamService"/> class.
         /// </summary>
@@ -57,8 +59,8 @@ namespace FubarDev.PamSharp
             }
 
             var conversation = new PamConv(ConversationCallback);
-            CheckStatus(PamInterop.pam_start(_configuration.ServiceName, user, conversation, out var pamHandle));
-            return new PamTransaction(pamHandle, conversation, _logger);
+            CheckStatus(_interop.pam_start(_configuration.ServiceName, user, conversation, out var pamHandle));
+            return new PamTransaction(_interop, pamHandle, conversation, _logger);
         }
 
         private void CheckStatus(PamStatus result, [CallerMemberName] string? caller = null)
@@ -71,7 +73,7 @@ namespace FubarDev.PamSharp
             if (result != PamStatus.PAM_SUCCESS)
             {
                 _logger.LogError("Action {0} failed with status {1}", caller, result);
-                throw new PamException(IntPtr.Zero, result);
+                throw new PamException(_interop, IntPtr.Zero, result);
             }
         }
     }

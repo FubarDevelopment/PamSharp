@@ -3,8 +3,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 using FubarDev.PamSharp.Interop;
 
@@ -18,8 +16,9 @@ namespace FubarDev.PamSharp.Tests
         public void CanStartPamTransaction()
         {
             var conv = new PamConv(NoOpConvCallback);
-            PamInterop.pam_start("passwd", null, conv, out var handle);
-            PamInterop.pam_end(handle, PamStatus.PAM_SUCCESS);
+            var interop = PamInteropFactory.Create();
+            interop.pam_start("passwd", null, conv, out var handle);
+            interop.pam_end(handle, PamStatus.PAM_SUCCESS);
         }
 
         private static PamStatus NoOpConvCallback(int messageCount, IntPtr messages, out IntPtr responseArrayPtr, IntPtr appDataPtr)

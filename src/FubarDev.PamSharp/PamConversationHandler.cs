@@ -57,7 +57,7 @@ namespace FubarDev.PamSharp
 
         private static IntPtr WriteResponses(IReadOnlyList<IPamResponse> responses)
         {
-            var responseSize = Marshal.SizeOf<PamInterop.BinaryResponseContainer>();
+            var responseSize = Marshal.SizeOf<BinaryResponseContainer>();
             var responseArraySize = responseSize * responses.Count;
             var responseArray = Marshal.AllocHGlobal(responseArraySize);
             for (var i = 0; i != responses.Count; ++i)
@@ -167,7 +167,7 @@ namespace FubarDev.PamSharp
 
         private static void WriteTextResponse(IntPtr dest, string? message)
         {
-            var response = new PamInterop.TextResponseContainer(message);
+            var response = new TextResponseContainer(message);
             Marshal.StructureToPtr(response, dest, false);
         }
 
@@ -182,7 +182,7 @@ namespace FubarDev.PamSharp
             bufferSpan[4] = control;
             data.Span.CopyTo(bufferSpan.Slice(5));
 
-            var response = new PamInterop.BinaryResponseContainer(binaryBuffer);
+            var response = new BinaryResponseContainer(binaryBuffer);
             Marshal.StructureToPtr(response, dest, false);
         }
 

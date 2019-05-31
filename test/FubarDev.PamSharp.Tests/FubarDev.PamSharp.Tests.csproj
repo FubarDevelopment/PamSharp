@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <IsPackable>false</IsPackable>
     <UserSecretsId>14089114-ace5-4c46-bf3e-a4df131165d9</UserSecretsId>
     <NoWarn>SA1401;$(NoWarn)</NoWarn>

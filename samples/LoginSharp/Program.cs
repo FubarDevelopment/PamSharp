@@ -14,7 +14,6 @@ using FubarDev.PamSharp.MessageHandlers;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 using Mono.Unix;
 
@@ -41,6 +40,8 @@ namespace LoginSharp
         private static void ExecuteLogin()
         {
             using var services = CreateServices();
+
+            // Enable logging
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddSyslog(new SyslogLoggerSettings()
             {

@@ -19,17 +19,17 @@ namespace FubarDev.PamSharp.Tests
             new object[] { "Windows", OSPlatform.Windows },
             new object[] { "linux", OSPlatform.Linux },
             new object[] { "Linux", OSPlatform.Linux },
-            new object[] { "freebsd", OSPlatform.FreeBSD },
-            new object[] { "FreeBSD", OSPlatform.FreeBSD },
+            new object[] { "freebsd", OSPlatform.Create("FREEBSD") },
+            new object[] { "FreeBSD", OSPlatform.Create("FREEBSD") },
         };
 
         public static object[][] CustomOsValues =
         {
-            new object[] { "openbsd", OSPlatform.FreeBSD.ToString() },
-            new object[] { "OpenBSD", OSPlatform.FreeBSD.ToString() },
-            new object[] { "bsd", OSPlatform.FreeBSD.ToString() },
-            new object[] { "BSD", OSPlatform.FreeBSD.ToString() },
-            new object[] { "whatever", "whatever" },
+            new object[] { "openbsd", "FREEBSD" },
+            new object[] { "OpenBSD", "FREEBSD" },
+            new object[] { "bsd", "FREEBSD" },
+            new object[] { "BSD", "FREEBSD" },
+            new object[] { "whatever", "WHATEVER" },
         };
 
         [Fact]
@@ -133,14 +133,14 @@ namespace FubarDev.PamSharp.Tests
                 osSelection =>
                 {
                     Assert.False(osSelection.Invert);
-                    Assert.Equal("whatever", osSelection.OsPlatform.ToString());
+                    Assert.Equal("WHATEVER", osSelection.OsPlatform.ToString());
                 });
             Assert.Collection(
                 DllMapOsSelection.GetOsValues("WhAtEvEr"),
                 osSelection =>
                 {
                     Assert.False(osSelection.Invert);
-                    Assert.Equal("whatever", osSelection.OsPlatform.ToString());
+                    Assert.Equal("WHATEVER", osSelection.OsPlatform.ToString());
                 });
         }
     }

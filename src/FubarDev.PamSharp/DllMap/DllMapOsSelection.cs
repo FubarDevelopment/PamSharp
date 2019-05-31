@@ -77,16 +77,17 @@ namespace FubarDev.PamSharp.DllMap
         /// </summary>
         /// <param name="name">The OS name.</param>
         /// <returns>The found or a new <see cref="OSPlatform"/>.</returns>
-        private static OSPlatform GetPlatform(string name)
+        internal static OSPlatform GetPlatform(string name)
         {
             switch (name.ToLowerInvariant())
             {
                 case "bsd":
                 case "openbsd":
-                    return OSPlatform.FreeBSD;
+                    name = "FreeBSD";
+                    break;
             }
 
-            return _wellKnownOsPlatforms.GetOrAdd(name, OSPlatform.Create);
+            return _wellKnownOsPlatforms.GetOrAdd(name, n => OSPlatform.Create(n.ToUpperInvariant()));
         }
     }
 }

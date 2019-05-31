@@ -87,13 +87,13 @@ namespace FubarDev.PamSharp.Interop
         {
             return new[]
             {
-                new DllMapItem("pam", "libpam.so.0", new[] {new DllMapOsSelection(false, OSPlatform.Linux),}),
-                new DllMapItem("pam", "libpam.so", new[] {new DllMapOsSelection(false, OSPlatform.Linux),}),
-                new DllMapItem("pam", "libpam.so.0", new[] {new DllMapOsSelection(false, OSPlatform.FreeBSD),}),
-                new DllMapItem("pam", "libpam.so", new[] {new DllMapOsSelection(false, OSPlatform.FreeBSD),}),
-                new DllMapItem("pam", "libpam.2.dylib", new[] {new DllMapOsSelection(false, OSPlatform.OSX),}),
-                new DllMapItem("pam", "libpam.1.dylib", new[] {new DllMapOsSelection(false, OSPlatform.OSX),}),
-                new DllMapItem("pam", "libpam.dylib", new[] {new DllMapOsSelection(false, OSPlatform.OSX),}),
+                new DllMapItem("pam", "libpam.so.0", new[] { new DllMapOsSelection(false, OSPlatform.Linux), }),
+                new DllMapItem("pam", "libpam.so", new[] { new DllMapOsSelection(false, OSPlatform.Linux), }),
+                new DllMapItem("pam", "libpam.so.0", new[] { new DllMapOsSelection(false, DllMapOsSelection.GetPlatform("FreeBSD")), }),
+                new DllMapItem("pam", "libpam.so", new[] { new DllMapOsSelection(false, DllMapOsSelection.GetPlatform("FreeBSD")), }),
+                new DllMapItem("pam", "libpam.2.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
+                new DllMapItem("pam", "libpam.1.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
+                new DllMapItem("pam", "libpam.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
             };
         }
     }

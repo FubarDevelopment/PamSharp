@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <Description>PAM bindings for .NET</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn Condition=" '$(Configuration)' != 'Release' ">$(NoWarn);SA1401</NoWarn>
@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Platform.Invoke" Version="1.2.0" />
+    <PackageReference Include="System.Memory" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>

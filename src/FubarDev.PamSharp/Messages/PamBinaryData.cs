@@ -1,4 +1,4 @@
-﻿// <copyright file="PamBinaryData.cs" company="Fubar Development Junker">
+// <copyright file="PamBinaryData.cs" company="Fubar Development Junker">
 // Copyright (c) Fubar Development Junker. All rights reserved.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace FubarDev.PamSharp.Messages
         /// Initializes a new instance of the <see cref="PamBinaryData"/> class.
         /// </summary>
         /// <param name="type">The type of the binary data.</param>
-        /// <param name="data">The binary data iteself.</param>
+        /// <param name="data">The binary data itself.</param>
         internal PamBinaryData(byte type, byte[] data)
         {
             Type = type;

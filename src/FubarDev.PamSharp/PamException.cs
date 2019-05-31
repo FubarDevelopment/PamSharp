@@ -1,4 +1,4 @@
-﻿// <copyright file="PamException.cs" company="Fubar Development Junker">
+// <copyright file="PamException.cs" company="Fubar Development Junker">
 // Copyright (c) Fubar Development Junker. All rights reserved.
 // </copyright>
 
@@ -17,10 +17,11 @@ namespace FubarDev.PamSharp
         /// <summary>
         /// Initializes a new instance of the <see cref="PamException"/> class.
         /// </summary>
+        /// <param name="interop">The object implementing the PAM API.</param>
         /// <param name="handle">The PAM handle.</param>
         /// <param name="status">The error status.</param>
-        internal PamException(IntPtr handle, PamStatus status)
-            : base(GetPamError(handle, (int)status))
+        internal PamException(IPamInterop interop, IntPtr handle, PamStatus status)
+            : base(GetPamError(interop, handle, (int)status))
         {
             Status = status;
         }
@@ -33,12 +34,13 @@ namespace FubarDev.PamSharp
         /// <summary>
         /// Gets the PAM error message.
         /// </summary>
+        /// <param name="interop">The object implementing the PAM interface.</param>
         /// <param name="handle">The PAM handle.</param>
         /// <param name="status">The error status.</param>
         /// <returns>The error message.</returns>
-        private static string GetPamError(IntPtr handle, int status)
+        private static string GetPamError(IPamInterop interop, IntPtr handle, int status)
         {
-            var result = PamInterop.pam_strerror(handle, status);
+            var result = interop.pam_strerror(handle, status);
             if (result == IntPtr.Zero)
             {
                 return $"Error ({status})";

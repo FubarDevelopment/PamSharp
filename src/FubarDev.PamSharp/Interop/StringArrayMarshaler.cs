@@ -40,7 +40,9 @@ namespace FubarDev.PamSharp.Interop
         public unsafe void CleanUpNativeData(IntPtr pNativeData)
         {
             if (pNativeData == IntPtr.Zero)
+            {
                 return;
+            }
 
             var arrayPtr = (byte**)pNativeData;
 
@@ -64,7 +66,9 @@ namespace FubarDev.PamSharp.Interop
         public unsafe IntPtr MarshalManagedToNative(object ManagedObj)
         {
             if (ManagedObj == null)
+            {
                 return IntPtr.Zero;
+            }
 
             var data = (string[])ManagedObj;
             var nativeData = Marshal.AllocHGlobal(IntPtr.Size * (data.Length + 1));
@@ -85,7 +89,9 @@ namespace FubarDev.PamSharp.Interop
         public unsafe object? MarshalNativeToManaged(IntPtr pNativeData)
         {
             if (pNativeData == IntPtr.Zero)
+            {
                 return null;
+            }
 
             var result = new List<string>();
             var arrayPtr = (byte**)pNativeData;

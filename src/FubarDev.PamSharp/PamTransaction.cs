@@ -19,6 +19,7 @@ namespace FubarDev.PamSharp
     /// </summary>
     internal class PamTransaction : IPamTransaction
     {
+        private readonly IPamInterop _interop;
         private readonly ILogger<PamService>? _logger;
 
         private readonly IntPtr _handle;
@@ -44,16 +45,19 @@ namespace FubarDev.PamSharp
         /// <summary>
         /// Initializes a new instance of the <see cref="PamTransaction"/> class.
         /// </summary>
+        /// <param name="interop">The object implementing the PAM functions.</param>
         /// <param name="handle">The handle of the PAM transaction.</param>
         /// <param name="conversation">The conversation handler information.</param>
         /// <param name="logger">The logger.</param>
         public PamTransaction(
+            IPamInterop interop,
             IntPtr handle,
             PamConv conversation,
             ILogger<PamService>? logger = null)
         {
             _conversation = _defaultConversation = conversation;
             _delayCallback = DelayCallback;
+            _interop = interop;
             _logger = logger;
             _handle = handle;
         }
@@ -66,7 +70,7 @@ namespace FubarDev.PamSharp
             if (!_disposed)
             {
                 _disposed = true;
-                PamInterop.pam_end(_handle, _lastStatus);
+                _interop.pam_end(_handle, _lastStatus);
             }
         }
 
@@ -183,75 +187,75 @@ namespace FubarDev.PamSharp
             }
 
             _disposed = true;
-            PamInterop.pam_end(_handle, _lastStatus);
+            _interop.pam_end(_handle, _lastStatus);
             GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc />
         public void Authenticate(PamFlags flags = (PamFlags)0)
         {
-            CheckStatus(PamInterop.pam_authenticate(Handle, flags));
+            CheckStatus(_interop.pam_authenticate(Handle, flags));
         }
 
         /// <inheritdoc />
         public void SetCredentials(PamFlags flags = (PamFlags)0)
         {
-            CheckStatus(PamInterop.pam_setcred(Handle, flags));
+            CheckStatus(_interop.pam_setcred(Handle, flags));
         }
 
         /// <inheritdoc />
         public void ChangeAuthenticationToken(PamFlags flags = (PamFlags)0)
         {
-            CheckStatus(PamInterop.pam_chauthtok(Handle, flags));
+            CheckStatus(_interop.pam_chauthtok(Handle, flags));
         }
 
         /// <inheritdoc />
         public void AccountManagement(PamFlags flags = (PamFlags)0)
         {
-            CheckStatus(PamInterop.pam_acct_mgmt(Handle, flags));
+            CheckStatus(_interop.pam_acct_mgmt(Handle, flags));
         }
 
         /// <inheritdoc />
         public void OpenSession(PamFlags flags = (PamFlags)0)
         {
-            CheckStatus(PamInterop.pam_open_session(Handle, flags));
+            CheckStatus(_interop.pam_open_session(Handle, flags));
         }
 
         /// <inheritdoc />
         public void CloseSession(PamFlags flags = (PamFlags)0)
         {
-            CheckStatus(PamInterop.pam_close_session(Handle, flags));
+            CheckStatus(_interop.pam_close_session(Handle, flags));
         }
 
         /// <inheritdoc />
         public string[] GetEnvironment()
         {
-            return PamInterop.pam_getenvlist(Handle);
+            return _interop.pam_getenvlist(Handle);
         }
 
         /// <inheritdoc />
         public string GetEnvironment(string name)
         {
-            return PamInterop.pam_getenv(Handle, name);
+            return _interop.pam_getenv(Handle, name);
         }
 
         /// <inheritdoc />
         public void PutEnvironment(string nameValue)
         {
-            PamInterop.pam_putenv(Handle, nameValue);
+            _interop.pam_putenv(Handle, nameValue);
         }
 
         /// <inheritdoc />
         public void FailDelay(TimeSpan timeSpan)
         {
             var microSeconds = (uint)(timeSpan.Ticks / 10);
-            CheckStatus(PamInterop.pam_fail_delay(Handle, microSeconds));
+            CheckStatus(_interop.pam_fail_delay(Handle, microSeconds));
         }
 
         /// <inheritdoc />
         public T GetItem<T>(PamItemTypes itemType, Func<IntPtr, T> unmarshalFunc)
         {
-            CheckStatus(PamInterop.pam_get_item(Handle, itemType, out var ptr));
+            CheckStatus(_interop.pam_get_item(Handle, itemType, out var ptr));
             return unmarshalFunc(ptr);
         }
 
@@ -267,7 +271,7 @@ namespace FubarDev.PamSharp
             var ptr = createItemDataFunc();
             try
             {
-                CheckStatus(PamInterop.pam_set_item(Handle, itemType, ptr));
+                CheckStatus(_interop.pam_set_item(Handle, itemType, ptr));
             }
             finally
             {
@@ -356,7 +360,7 @@ namespace FubarDev.PamSharp
                 _logger.LogError("Action {0} failed with status {1}", caller, result);
                 _lastStatus = result;
                 var handle = _disposed ? IntPtr.Zero : Handle;
-                throw new PamException(handle, result);
+                throw new PamException(_interop, handle, result);
             }
         }
 
