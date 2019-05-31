@@ -3,7 +3,11 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.InteropServices;
+
+using FubarDev.PamSharp.Interop.UnixDl2;
 
 using Platform.Invoke;
 
@@ -27,14 +31,8 @@ namespace FubarDev.PamSharp.Interop
             {
                 if (_interop == null)
                 {
-                    var libraryLoader = LibraryLoaderFactory.Create();
-                    var library = MapAndLoad("pam", typeof(IPamInterop).Assembly, libraryLoader);
-                    if (library == null)
-                    {
-                        throw new NotSupportedException("Unsupported operating system, no viable library loader or library not found");
-                    }
-
-                    _interop = LibraryInterfaceFactory.Implement<IPamInterop>(library);
+                    _interop = CreatePamInterop() ?? throw new NotSupportedException(
+                                   "Unsupported operating system, no viable library loader or library not found");
                 }
 
                 return _interop;
@@ -63,6 +61,36 @@ namespace FubarDev.PamSharp.Interop
             }
 
             return null;
+        }
+
+        private static IPamInterop? CreatePamInterop()
+        {
+            foreach (var libraryLoader in GetLibraryLoaders())
+            {
+                try
+                {
+                    var library = MapAndLoad("pam", typeof(IPamInterop).Assembly, libraryLoader);
+                    if (library != null)
+                    {
+                        return LibraryInterfaceFactory.Implement<IPamInterop>(library);
+                    }
+                }
+                catch
+                {
+                    // Ignore
+                }
+            }
+
+            return null;
+        }
+
+        private static IEnumerable<ILibraryLoader> GetLibraryLoaders()
+        {
+            yield return LibraryLoaderFactory.Create();
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                yield return new UnixDl2LibraryLoader();
+            }
         }
     }
 }
