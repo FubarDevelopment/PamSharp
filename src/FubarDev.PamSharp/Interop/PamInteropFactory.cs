@@ -31,8 +31,7 @@ namespace FubarDev.PamSharp.Interop
             {
                 if (_interop == null)
                 {
-                    _interop = CreatePamInterop() ?? throw new NotSupportedException(
-                                   "Unsupported operating system, no viable library loader or library not found");
+                    _interop = CreatePamInterop();
                 }
 
                 return _interop;
@@ -63,8 +62,9 @@ namespace FubarDev.PamSharp.Interop
             return null;
         }
 
-        private static IPamInterop? CreatePamInterop()
+        private static IPamInterop CreatePamInterop()
         {
+            var exceptions = new List<Exception>();
             foreach (var libraryLoader in GetLibraryLoaders())
             {
                 try
@@ -75,13 +75,15 @@ namespace FubarDev.PamSharp.Interop
                         return LibraryInterfaceFactory.Implement<IPamInterop>(library);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Ignore
+                    exceptions.Add(ex);
                 }
             }
 
-            return null;
+            throw new AggregateException(
+                "Unsupported operating system, no viable library loader or library not found",
+                exceptions);
         }
 
         private static IEnumerable<ILibraryLoader> GetLibraryLoaders()

@@ -6,7 +6,6 @@ using System;
 using System.Runtime.InteropServices;
 
 using Platform.Invoke;
-using Platform.Invoke.Unix;
 
 namespace FubarDev.PamSharp.Interop.UnixDl2
 {
@@ -73,7 +72,7 @@ namespace FubarDev.PamSharp.Interop.UnixDl2
         /// <returns><see cref="ILibrary"/> interface for the specified library.</returns>
         protected override ILibrary CreateLibrary(IntPtr handle, string libraryName)
         {
-            return new UnixLibrary(handle, libraryName);
+            return new UnixDl2Library(handle, libraryName);
         }
 
         /// <summary>
