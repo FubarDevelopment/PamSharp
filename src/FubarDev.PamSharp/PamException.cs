@@ -20,8 +20,9 @@ namespace FubarDev.PamSharp
         /// <param name="interop">The object implementing the PAM API.</param>
         /// <param name="handle">The PAM handle.</param>
         /// <param name="status">The error status.</param>
-        internal PamException(IPamInterop interop, IntPtr handle, PamStatus status)
-            : base(GetPamError(interop, handle, (int)status))
+        /// <param name="caller">The PAM method (or library method which uses PAM method internally) that causes exception.</param>
+        internal PamException(IPamInterop interop, IntPtr handle, PamStatus status, string? caller)
+            : base(GetPamError(interop, handle, status, caller))
         {
             Status = status;
         }
@@ -37,13 +38,16 @@ namespace FubarDev.PamSharp
         /// <param name="interop">The object implementing the PAM interface.</param>
         /// <param name="handle">The PAM handle.</param>
         /// <param name="status">The error status.</param>
+        /// <param name="caller">The PAM method (or library method which uses PAM method internally) that causes exception.</param>
         /// <returns>The error message.</returns>
-        private static string? GetPamError(IPamInterop interop, IntPtr handle, int status)
+        private static string? GetPamError(IPamInterop interop, IntPtr handle, PamStatus status, string? caller)
         {
-            var result = interop.pam_strerror(handle, status);
+            var result = interop.pam_strerror(handle, (int)status);
             if (result == IntPtr.Zero)
             {
-                return $"Error ({status.ToString()}).";
+                caller ??= "unknown method";
+                var errorMessage = PamStatusHelper.TransformStatusToString(status, caller);
+                return $"{caller} fails with {errorMessage}";
             }
 
             return Marshal.PtrToStringUTF8(result);

@@ -350,7 +350,7 @@ namespace FubarDev.PamSharp
                 _logger?.LogError("Action {0} failed with status {1}", caller, result);
                 _lastStatus = result;
                 var handle = _disposed ? IntPtr.Zero : Handle;
-                throw new PamException(_interop, handle, result);
+                throw new PamException(_interop, handle, result, caller);
             }
         }
 
