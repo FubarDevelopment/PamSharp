@@ -73,7 +73,7 @@ namespace FubarDev.PamSharp
             if (result != PamStatus.PAM_SUCCESS)
             {
                 _logger.LogError("Action {0} failed with status {1}", caller, result);
-                throw new PamException(_interop, IntPtr.Zero, result);
+                throw new PamException(_interop, IntPtr.Zero, result, caller);
             }
         }
     }
