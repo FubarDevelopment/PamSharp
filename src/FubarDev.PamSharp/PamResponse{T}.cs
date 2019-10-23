@@ -53,7 +53,10 @@ namespace FubarDev.PamSharp
         public static PamResponse<T> Error(PamStatus status)
         {
             if (status == PamStatus.PAM_SUCCESS)
-                throw new ArgumentOutOfRangeException(nameof(status), "Status must not indicate success");
+            {
+                throw new ArgumentOutOfRangeException(nameof(status), status, "Status must not indicate success.");
+            }
+
             return new PamResponse<T>(status, () => throw new InvalidOperationException("No payload available."));
         }
     }

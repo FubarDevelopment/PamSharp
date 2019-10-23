@@ -100,7 +100,7 @@ namespace FubarDev.PamSharp
                         yield return new PamBinaryResponse(messageHandler.BinaryPrompt(msg.Payload));
                         break;
                     default:
-                        throw new NotSupportedException($"Message style {message.MessageStyle} not supported");
+                        throw new NotSupportedException($"Message style {message.MessageStyle.ToString()} not supported.");
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace FubarDev.PamSharp
                         result.Add(ReadBinaryInfo(message));
                         break;
                     default:
-                        throw new NotSupportedException($"Message style {messageStyle} not supported");
+                        throw new NotSupportedException($"Message style {messageStyle.ToString()} not supported.");
                 }
             }
 
@@ -161,7 +161,7 @@ namespace FubarDev.PamSharp
 
         private static unsafe IPamMessage ReadTextInfo(PamMessage* messagePtr, Func<string, IPamMessage> createMessageFunc)
         {
-            var text = Marshal.PtrToStringUTF8(messagePtr->Message);
+            var text = Marshal.PtrToStringUTF8(messagePtr->Message) ?? string.Empty;
             return createMessageFunc(text);
         }
 

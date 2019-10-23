@@ -38,12 +38,12 @@ namespace FubarDev.PamSharp
         /// <param name="handle">The PAM handle.</param>
         /// <param name="status">The error status.</param>
         /// <returns>The error message.</returns>
-        private static string GetPamError(IPamInterop interop, IntPtr handle, int status)
+        private static string? GetPamError(IPamInterop interop, IntPtr handle, int status)
         {
             var result = interop.pam_strerror(handle, status);
             if (result == IntPtr.Zero)
             {
-                return $"Error ({status})";
+                return $"Error ({status.ToString()}).";
             }
 
             return Marshal.PtrToStringUTF8(result);

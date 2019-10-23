@@ -1,4 +1,4 @@
-﻿// <copyright file="ConsoleMessageHandler.cs" company="Fubar Development Junker">
+// <copyright file="ConsoleMessageHandler.cs" company="Fubar Development Junker">
 // Copyright (c) Fubar Development Junker. All rights reserved.
 // </copyright>
 
@@ -88,7 +88,7 @@ namespace FubarDev.PamSharp.MessageHandlers
 
             try
             {
-                var input = Console.In.ReadLine();
+                var input = Console.In.ReadLine() ?? string.Empty;
                 return PamResponse<string>.Success(input);
             }
             catch (Exception ex)

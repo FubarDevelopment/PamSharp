@@ -140,7 +140,7 @@ namespace LoginSharp
                     case TargetInvocationException invocationException when invocationException.InnerException != null:
                         exception = invocationException.InnerException;
                         break;
-                    case AggregateException aggregateException:
+                    case AggregateException aggregateException when aggregateException.InnerException != null:
                         exception = aggregateException.InnerException;
                         break;
                 }
