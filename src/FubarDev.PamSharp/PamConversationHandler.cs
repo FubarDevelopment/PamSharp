@@ -25,7 +25,7 @@ namespace FubarDev.PamSharp
         /// <param name="messageHandler">The message handler that gets the messages.</param>
         public PamConversationHandler(IPamMessageHandler messageHandler)
         {
-            _messageHandler = messageHandler ?? throw new ArgumentNullException();
+            _messageHandler = messageHandler ?? throw new ArgumentNullException(nameof(messageHandler));
         }
 
         private interface IPamResponse
