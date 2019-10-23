@@ -14,10 +14,10 @@
     <RepositoryType>git</RepositoryType>
     <MinClientVersion>3.5</MinClientVersion>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)FubarDev.PamSharp.ruleset</CodeAnalysisRuleSet>
-    <NullableContextOptions>enable</NullableContextOptions>
     <NoWarn>SA1636;SA1641;$(NoWarn)</NoWarn>
+    <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-    <NullableContextOptions>enable</NullableContextOptions>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

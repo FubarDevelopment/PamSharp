@@ -21,7 +21,9 @@ namespace FubarDev.PamSharp
         public static string? PtrToStringUTF8(IntPtr ptr)
         {
             if (ptr == IntPtr.Zero)
+            {
                 return null;
+            }
 
             return Marshal.PtrToStringUTF8(ptr);
         }

@@ -23,7 +23,7 @@ namespace FubarDev.PamSharp
         /// The use of this event must be enabled with <see cref="EnableFailDelayEvent"/>.
         /// This feature is only available on Linux.
         /// </remarks>
-        event EventHandler<PamDelayEventArgs> Delay;
+        event EventHandler<PamDelayEventArgs>? Delay;
 
         /// <summary>
         /// Gets the PAM transaction handle.
@@ -83,7 +83,7 @@ namespace FubarDev.PamSharp
         /// Gets or sets the X authentication data.
         /// </summary>
         /// <seealso cref="PamItemTypes.PAM_XAUTHDATA"/>
-        PamXAuthData XAuthData { get; set; }
+        PamXAuthData? XAuthData { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="Delay"/> event is enabled.

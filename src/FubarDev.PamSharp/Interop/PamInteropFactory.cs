@@ -27,15 +27,20 @@ namespace FubarDev.PamSharp.Interop
         /// <returns>a new object that implements the PAM API.</returns>
         public static IPamInterop Create()
         {
-            lock (_lock)
+            if (_interop == null)
             {
-                if (_interop == null)
+                lock (_lock)
                 {
-                    _interop = CreatePamInterop();
-                }
+                    if (_interop == null)
+                    {
+                        _interop = CreatePamInterop();
+                    }
 
-                return _interop;
+                    return _interop;
+                }
             }
+
+            return _interop;
         }
 
         /// <summary>
@@ -82,7 +87,7 @@ namespace FubarDev.PamSharp.Interop
             }
 
             throw new AggregateException(
-                "Unsupported operating system, no viable library loader or library not found",
+                "Unsupported operating system, no viable library loader or library not found.",
                 exceptions);
         }
 

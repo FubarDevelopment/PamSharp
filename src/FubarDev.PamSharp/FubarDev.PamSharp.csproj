@@ -1,18 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <Description>PAM bindings for .NET</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn Condition=" '$(Configuration)' != 'Release' ">$(NoWarn);SA1401</NoWarn>
     <AppConfig>app.config</AppConfig>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
+    <RootNamespace>FubarDev.PamSharp</RootNamespace>
   </PropertyGroup>
 
   <Import Project="../../PackageLibrary.props" />
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.0.0" />
     <PackageReference Include="Platform.Invoke" Version="1.2.0" />
-    <PackageReference Include="System.Memory" Version="4.5.0" />
+    <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,5 +24,9 @@
       <Pack>true</Pack>
       <PackagePath>lib/$(TargetFramework)/$(AssemblyName).dll.config</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="JetBrains.Annotations" Version="2019.1.3" />
   </ItemGroup>
 </Project>

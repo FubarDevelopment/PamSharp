@@ -67,15 +67,11 @@ namespace FubarDev.PamSharp
         /// </summary>
         ~PamTransaction()
         {
-            if (!_disposed)
-            {
-                _disposed = true;
-                _interop.pam_end(_handle, _lastStatus);
-            }
+            Dispose(false);
         }
 
         /// <inheritdoc />
-        public event EventHandler<PamDelayEventArgs> Delay;
+        public event EventHandler<PamDelayEventArgs>? Delay;
 
         /// <inheritdoc />
         public IntPtr Handle
@@ -141,7 +137,7 @@ namespace FubarDev.PamSharp
         }
 
         /// <inheritdoc />
-        public PamXAuthData XAuthData
+        public PamXAuthData? XAuthData
         {
             get => GetItem(PamItemTypes.PAM_XAUTHDATA, UnmarshalXAuthData);
             set => SetItem(PamItemTypes.PAM_XAUTHDATA, () => MarshalXAuthData(value), CleanupXAuthData);
@@ -181,48 +177,42 @@ namespace FubarDev.PamSharp
         /// <inheritdoc />
         public void Dispose()
         {
-            if (_disposed)
-            {
-                return;
-            }
-
-            _disposed = true;
-            _interop.pam_end(_handle, _lastStatus);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc />
-        public void Authenticate(PamFlags flags = (PamFlags)0)
+        public void Authenticate(PamFlags flags = 0)
         {
             CheckStatus(_interop.pam_authenticate(Handle, flags));
         }
 
         /// <inheritdoc />
-        public void SetCredentials(PamFlags flags = (PamFlags)0)
+        public void SetCredentials(PamFlags flags = 0)
         {
             CheckStatus(_interop.pam_setcred(Handle, flags));
         }
 
         /// <inheritdoc />
-        public void ChangeAuthenticationToken(PamFlags flags = (PamFlags)0)
+        public void ChangeAuthenticationToken(PamFlags flags = 0)
         {
             CheckStatus(_interop.pam_chauthtok(Handle, flags));
         }
 
         /// <inheritdoc />
-        public void AccountManagement(PamFlags flags = (PamFlags)0)
+        public void AccountManagement(PamFlags flags = 0)
         {
             CheckStatus(_interop.pam_acct_mgmt(Handle, flags));
         }
 
         /// <inheritdoc />
-        public void OpenSession(PamFlags flags = (PamFlags)0)
+        public void OpenSession(PamFlags flags = 0)
         {
             CheckStatus(_interop.pam_open_session(Handle, flags));
         }
 
         /// <inheritdoc />
-        public void CloseSession(PamFlags flags = (PamFlags)0)
+        public void CloseSession(PamFlags flags = 0)
         {
             CheckStatus(_interop.pam_close_session(Handle, flags));
         }
@@ -292,7 +282,7 @@ namespace FubarDev.PamSharp
             Marshal.FreeHGlobal(authPtr);
         }
 
-        private static IntPtr MarshalXAuthData(PamXAuthData data)
+        private static IntPtr MarshalXAuthData(PamXAuthData? data)
         {
             if (data == null)
             {
@@ -357,7 +347,7 @@ namespace FubarDev.PamSharp
         {
             if (result != PamStatus.PAM_SUCCESS)
             {
-                _logger.LogError("Action {0} failed with status {1}", caller, result);
+                _logger?.LogError("Action {0} failed with status {1}", caller, result);
                 _lastStatus = result;
                 var handle = _disposed ? IntPtr.Zero : Handle;
                 throw new PamException(_interop, handle, result);
@@ -373,9 +363,25 @@ namespace FubarDev.PamSharp
             }
             else
             {
-                _logger.LogTrace("Delaying {0}µs for status {1}", usec, status);
+                _logger?.LogTrace("Delaying {0}µs for status {1}", usec, status);
                 Thread.Sleep(delay);
             }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                // No managed objects to dispose.
+            }
+
+            _interop.pam_end(_handle, _lastStatus);
+            _disposed = true;
         }
     }
 }
