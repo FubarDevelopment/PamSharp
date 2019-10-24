@@ -2,11 +2,12 @@
 // Copyright (c) Fubar Development Junker. All rights reserved.
 // </copyright>
 
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 
 using FubarDev.PamSharp.DllMap;
-
+using FubarDev.PamSharp.Interop;
 using Xunit;
 
 namespace FubarDev.PamSharp.Tests
@@ -142,6 +143,18 @@ namespace FubarDev.PamSharp.Tests
                     Assert.False(osSelection.Invert);
                     Assert.Equal("WHATEVER", osSelection.OsPlatform.ToString());
                 });
+        }
+
+        [Fact]
+        public void CompareDefaultDllMappingWithConifgFile()
+        {
+            var defaultDllMapItems = NaiveDllMap.GetDefaultDllMap().ToList();
+
+            var additionalConfigPath = NaiveDllMap.ConstructAdditionalConfigFile(typeof(IPamService).Assembly.Location);
+            var root = XElement.Load(additionalConfigPath);
+            var configDllMapItems = DllMapItem.LoadDllMap(root.Elements("dllmap")).ToList();
+
+            Assert.Equal(defaultDllMapItems, configDllMapItems);
         }
     }
 }

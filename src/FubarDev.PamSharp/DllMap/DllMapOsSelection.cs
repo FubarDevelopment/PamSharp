@@ -4,13 +4,14 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace FubarDev.PamSharp.DllMap
 {
-    internal class DllMapOsSelection
+    internal class DllMapOsSelection : IEquatable<DllMapOsSelection>
     {
         private static readonly ConcurrentDictionary<string, OSPlatform> _wellKnownOsPlatforms =
             new ConcurrentDictionary<string, OSPlatform>(
@@ -70,6 +71,27 @@ namespace FubarDev.PamSharp.DllMap
             return Invert
                 ? !RuntimeInformation.IsOSPlatform(OsPlatform)
                 : RuntimeInformation.IsOSPlatform(OsPlatform);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as DllMapOsSelection);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Invert, OsPlatform);
+        }
+
+        public bool Equals([AllowNull] DllMapOsSelection other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            return Invert.Equals(other.Invert) &&
+                   OsPlatform.Equals(other.OsPlatform);
         }
 
         /// <summary>
