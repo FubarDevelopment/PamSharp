@@ -2,7 +2,9 @@
 // Copyright (c) Fubar Development Junker. All rights reserved.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -11,7 +13,7 @@ namespace FubarDev.PamSharp.DllMap
     /// <summary>
     /// Represents a <c>dllmap</c> configuration entry.
     /// </summary>
-    internal class DllMapItem
+    internal class DllMapItem : IEquatable<DllMapItem>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DllMapItem"/> class.
@@ -59,6 +61,31 @@ namespace FubarDev.PamSharp.DllMap
                     dll.Value,
                     target.Value,
                     DllMapOsSelection.GetOsValues(os?.Value));
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as DllMapItem);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Dll, Target);
+        }
+
+        public bool Equals([AllowNull] DllMapItem other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            var stringComparer = StringComparer.Ordinal;
+            return stringComparer.Equals(Dll, other.Dll) &&
+                   stringComparer.Equals(Target, other.Target) &&
+                   OperatingSystems
+                       .Zip(other.OperatingSystems)
+                       .All(pair => pair.First.Equals(pair.Second));
         }
     }
 }

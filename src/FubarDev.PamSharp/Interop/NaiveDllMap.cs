@@ -18,6 +18,8 @@ namespace FubarDev.PamSharp.Interop
     /// </summary>
     internal static class NaiveDllMap
     {
+        internal const string DllMappingFilename = "dllmap.config";
+
         /// <summary>
         /// Try to map and load a native library.
         /// </summary>
@@ -28,10 +30,17 @@ namespace FubarDev.PamSharp.Interop
         /// <returns>A tuple that indicates success/failure and the returned value by the probe function.</returns>
         public static (bool success, T result) MapAndLoad<T>(string libraryName, string dllConfigPath, Func<string, (bool succes, T result)> probeFunc)
         {
+            var additionalConfigPath = Path.GetDirectoryName(dllConfigPath) + DllMappingFilename;
+
             IEnumerable<DllMapItem> dllMapItems;
             if (!File.Exists(dllConfigPath))
             {
                 dllMapItems = GetDefaultDllMap();
+            }
+            else if (File.Exists(additionalConfigPath))
+            {
+                var root = XElement.Load(additionalConfigPath);
+                dllMapItems = DllMapItem.LoadDllMap(root.Elements("dllmap"));
             }
             else
             {
@@ -42,6 +51,34 @@ namespace FubarDev.PamSharp.Interop
             var items = Filter(dllMapItems, libraryName);
             return MapAndLoad(items, probeFunc)
                 ?? probeFunc(libraryName);
+        }
+
+        /// <summary>
+        /// Gets default DLL mapping config.
+        /// </summary>
+        /// <returns>A default array of <see cref="DllMapItem"/> objects.</returns>
+        internal static IEnumerable<DllMapItem> GetDefaultDllMap()
+        {
+            return new[]
+            {
+                new DllMapItem("pam", "libpam.so.0", new[] { new DllMapOsSelection(false, OSPlatform.Linux), }),
+                new DllMapItem("pam", "libpam.so", new[] { new DllMapOsSelection(false, OSPlatform.Linux), }),
+                new DllMapItem("pam", "libpam.so.0", new[] { new DllMapOsSelection(false, DllMapOsSelection.GetPlatform("FreeBSD")), }),
+                new DllMapItem("pam", "libpam.so", new[] { new DllMapOsSelection(false, DllMapOsSelection.GetPlatform("FreeBSD")), }),
+                new DllMapItem("pam", "libpam.2.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
+                new DllMapItem("pam", "libpam.1.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
+                new DllMapItem("pam", "libpam.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
+            };
+        }
+
+        /// <summary>
+        /// Constructs full path to additional DLL map conifg file.
+        /// </summary>
+        /// <param name="dllConfigPath">The app conifg file path.</param>
+        /// <returns>The full path to additional config file with DLL map.</returns>
+        internal static string ConstructAdditionalConfigFile(string dllConfigPath)
+        {
+            return Path.GetDirectoryName(dllConfigPath) + Path.DirectorySeparatorChar + DllMappingFilename;
         }
 
         /// <summary>
@@ -81,20 +118,6 @@ namespace FubarDev.PamSharp.Interop
                 let operatingSystems = item.OperatingSystems
                 where operatingSystems.Length == 0 || operatingSystems.Any(os => os.IsMatch())
                 select item;
-        }
-
-        private static IEnumerable<DllMapItem> GetDefaultDllMap()
-        {
-            return new[]
-            {
-                new DllMapItem("pam", "libpam.so.0", new[] { new DllMapOsSelection(false, OSPlatform.Linux), }),
-                new DllMapItem("pam", "libpam.so", new[] { new DllMapOsSelection(false, OSPlatform.Linux), }),
-                new DllMapItem("pam", "libpam.so.0", new[] { new DllMapOsSelection(false, DllMapOsSelection.GetPlatform("FreeBSD")), }),
-                new DllMapItem("pam", "libpam.so", new[] { new DllMapOsSelection(false, DllMapOsSelection.GetPlatform("FreeBSD")), }),
-                new DllMapItem("pam", "libpam.2.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
-                new DllMapItem("pam", "libpam.1.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
-                new DllMapItem("pam", "libpam.dylib", new[] { new DllMapOsSelection(false, OSPlatform.OSX), }),
-            };
         }
     }
 }
