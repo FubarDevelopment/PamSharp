@@ -33,9 +33,10 @@ namespace FubarDev.PamSharp.Interop
             var additionalConfigPath = Path.GetDirectoryName(dllConfigPath) + DllMappingFilename;
 
             IEnumerable<DllMapItem> dllMapItems;
-            if (!File.Exists(dllConfigPath))
+            if (File.Exists(dllConfigPath))
             {
-                dllMapItems = GetDefaultDllMap();
+                var root = XElement.Load(dllConfigPath);
+                dllMapItems = DllMapItem.LoadDllMap(root.Elements("dllmap"));
             }
             else if (File.Exists(additionalConfigPath))
             {
@@ -44,8 +45,7 @@ namespace FubarDev.PamSharp.Interop
             }
             else
             {
-                var root = XElement.Load(dllConfigPath);
-                dllMapItems = DllMapItem.LoadDllMap(root.Elements("dllmap"));
+                dllMapItems = GetDefaultDllMap();
             }
 
             var items = Filter(dllMapItems, libraryName);
