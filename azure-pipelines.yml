@@ -25,9 +25,9 @@ variables:
 
 jobs:
 - job: prepare
+  displayName: Setting the build number
   steps:
   - task: UseGitVersion@5
-    displayName: 'GitVersion'
     inputs:
       versionSpec: '5.0.2-beta1.130'
       includePrerelease: true
@@ -36,6 +36,7 @@ jobs:
       BUILD_BUILDNUMBER: $(GitVersion.FullSemVer)
 
 - job: pack
+  displayName: Build and create NuGet packages
   dependsOn: prepare
   condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest')))
   steps:
@@ -54,6 +55,7 @@ jobs:
     artifact: packages
 
 - job: build
+  displayName: Build the solution
   dependsOn: prepare
   condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
   steps:
@@ -65,6 +67,7 @@ jobs:
       msbuildArgs: '/p:Version="$(build.buildNumber)"'
 
 - job: test
+  displayName: Running the tests
   dependsOn: prepare
   pool:
     vmImage: 'ubuntu-latest'
@@ -78,6 +81,7 @@ jobs:
       projects: 'test/FubarDev.PamSharp.Tests/FubarDev.PamSharp.Tests.csproj'
 
 - job: tagRelease
+  displayName: Tagging the build
   dependsOn:
   - test
   - pack
