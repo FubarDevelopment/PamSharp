@@ -53,9 +53,11 @@ namespace FubarDev.PamSharp.Interop
         }
 
         /// <inheritdoc />
-        public object? MarshalNativeToManaged(IntPtr pNativeData)
+#nullable disable
+        public object MarshalNativeToManaged(IntPtr pNativeData)
         {
             return MarshalUtils.PtrToStringUTF8(pNativeData);
         }
+#nullable restore
     }
 }

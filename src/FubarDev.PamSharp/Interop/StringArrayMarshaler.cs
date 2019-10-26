@@ -86,7 +86,8 @@ namespace FubarDev.PamSharp.Interop
         }
 
         /// <inheritdoc />
-        public unsafe object? MarshalNativeToManaged(IntPtr pNativeData)
+#nullable disable
+        public unsafe object MarshalNativeToManaged(IntPtr pNativeData)
         {
             if (pNativeData == IntPtr.Zero)
             {
@@ -106,5 +107,6 @@ namespace FubarDev.PamSharp.Interop
 
             return result.ToArray();
         }
+#nullable restore
     }
 }

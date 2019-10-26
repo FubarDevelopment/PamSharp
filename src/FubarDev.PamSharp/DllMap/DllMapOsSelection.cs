@@ -17,7 +17,7 @@ namespace FubarDev.PamSharp.DllMap
             new ConcurrentDictionary<string, OSPlatform>(
                 typeof(OSPlatform)
                     .GetProperties(BindingFlags.GetProperty | BindingFlags.Static | BindingFlags.Public)
-                    .Select(x => (OSPlatform)x.GetValue(null))
+                    .Select(x => (OSPlatform)x.GetValue(null)!)
                     .ToDictionary(x => x.ToString()), StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
