@@ -65,12 +65,13 @@ jobs:
   variables:
     buildConfiguration: 'Debug'
   steps:
+  - script: echo "$(Build.SourceBranch)"
   - task: DotNetCoreCLI@2
     inputs:
       command: 'test'
       projects: 'test/FubarDev.PamSharp.Tests/FubarDev.PamSharp.Tests.csproj'
 
-- job: tagRlease
+- job: tagRelease
   dependsOn:
   - test
   - build
