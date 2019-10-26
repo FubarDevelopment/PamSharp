@@ -57,6 +57,8 @@ jobs:
 
 - job: test
   dependsOn: prepare
+  pool:
+    vmImage: 'ubuntu-latest'
   variables:
     buildConfiguration: 'Debug'
   steps:
