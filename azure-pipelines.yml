@@ -39,6 +39,8 @@ jobs:
   displayName: Build and create NuGet packages
   dependsOn: prepare
   condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest')))
+  pool:
+    vmImage: 'windows-latest'
   steps:
   - task: VSBuild@1
     inputs:
@@ -58,6 +60,8 @@ jobs:
   displayName: Build the solution
   dependsOn: prepare
   condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+  pool:
+    vmImage: 'windows-latest'
   steps:
   - task: VSBuild@1
     inputs:
