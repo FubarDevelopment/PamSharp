@@ -74,7 +74,6 @@ jobs:
 - job: tagRelease
   dependsOn:
   - test
-  - build
   - pack
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
   steps:
