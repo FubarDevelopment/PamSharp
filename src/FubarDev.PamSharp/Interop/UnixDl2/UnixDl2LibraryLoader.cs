@@ -78,7 +78,7 @@ namespace FubarDev.PamSharp.Interop.UnixDl2
         /// <summary>
         /// Unix library loader function.
         /// </summary>
-        /// <param name="filename">Filename to load,</param>
+        /// <param name="filename">Filename to load.</param>
         /// <param name="flags">Loader flags. Typically RTLD_LAZY.</param>
         /// <returns>Handle to the library.</returns>
         [DllImport("libdl.so.2")]

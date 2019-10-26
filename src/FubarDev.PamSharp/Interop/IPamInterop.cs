@@ -9,6 +9,12 @@ using Platform.Invoke.Attributes;
 
 namespace FubarDev.PamSharp.Interop
 {
+    /// <summary>
+    /// Interface to be implemented by the PAM bindings.
+    /// </summary>
+    /// <remarks>
+    /// All functions are mapped to the corresponding native library functions.
+    /// </remarks>
 #pragma warning disable IDE1006 // Benennungsstile
 #pragma warning disable SA1300 // Element should begin with upper-case letter
     [Library(PamConstants.DllName)]
