@@ -3,6 +3,7 @@
 // </copyright>
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 using FubarDev.PamSharp.Interop;
@@ -21,7 +22,7 @@ namespace FubarDev.PamSharp
         /// <param name="handle">The PAM handle.</param>
         /// <param name="status">The error status.</param>
         /// <param name="caller">The PAM method (or library method which uses PAM method internally) that causes exception.</param>
-        internal PamException(IPamInterop interop, IntPtr handle, PamStatus status, string? caller)
+        internal PamException(IPamInterop interop, IntPtr handle, PamStatus status, [CallerMemberName] string? caller = null)
             : base(GetPamError(interop, handle, status, caller))
         {
             Status = status;

@@ -65,11 +65,6 @@ namespace FubarDev.PamSharp
 
         private void CheckStatus(PamStatus result, [CallerMemberName] string? caller = null)
         {
-            CheckStatus(caller, result);
-        }
-
-        private void CheckStatus(string? caller, PamStatus result)
-        {
             if (result != PamStatus.PAM_SUCCESS)
             {
                 _logger?.LogError("Action {0} failed with status {1}", caller, result);
