@@ -69,3 +69,15 @@ jobs:
     inputs:
       command: 'test'
       projects: 'test/FubarDev.PamSharp.Tests/FubarDev.PamSharp.Tests.csproj'
+
+- job: tagRlease
+  dependsOn:
+  - test
+  - build
+  - pack
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
+  steps:
+  - task: tagBuildOrRelease@0
+    inputs:
+      type: 'Build'
+      tags: 'release'
