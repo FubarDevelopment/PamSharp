@@ -67,6 +67,10 @@ jobs:
       warningVariance: '5'
       showStatistics: true
       includePartiallySucceeded: false
+      warningTaskFilters: '/^vsbuild/i'
+      warningFilters: |
+        /##\[warning\].+CS.+:/i
+        /##\[warning\].+SA.+:/i
   - publish: $(Build.ArtifactStagingDirectory)
     artifact: packages
 
@@ -97,6 +101,10 @@ jobs:
       warningVariance: '5'
       showStatistics: true
       includePartiallySucceeded: false
+      warningTaskFilters: '/^vsbuild/i'
+      warningFilters: |
+        /##\[warning\].+CS.+:/i
+        /##\[warning\].+SA.+:/i
 
 - job: test
   displayName: Running the tests
