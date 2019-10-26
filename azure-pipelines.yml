@@ -19,9 +19,8 @@ pr:
     - '*'  # must quote since "*" is a YAML reserved character; we want a string
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
   solution: PamSharp.sln
+  buildPlatform: 'Any CPU'
   buildConfiguration: Release
 
 jobs:
