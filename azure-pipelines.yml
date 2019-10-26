@@ -42,9 +42,12 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   steps:
-  - task: NuGetCommand@2
+  - task: DotNetCoreCLI@2
     inputs:
-      restoreSolution: '$(solution)'
+      command: 'restore'
+      projects: '$(solution)'
+      feedsToUse: 'select'
+      verbosityRestore: 'Normal'
   - task: VSBuild@1
     inputs:
       solution: '$(solution)'
@@ -66,9 +69,12 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   steps:
-  - task: NuGetCommand@2
+  - task: DotNetCoreCLI@2
     inputs:
-      restoreSolution: '$(solution)'
+      command: 'restore'
+      projects: '$(solution)'
+      feedsToUse: 'select'
+      verbosityRestore: 'Normal'
   - task: VSBuild@1
     inputs:
       solution: '$(solution)'
