@@ -88,8 +88,7 @@ namespace FubarDev.PamSharp.Interop
 
             throw new AggregateException(
                 "Unsupported operating system, no viable library loader or library not found.",
-                exceptions
-            );
+                exceptions);
         }
 
         private static IEnumerable<ILibraryLoader> GetLibraryLoaders()
