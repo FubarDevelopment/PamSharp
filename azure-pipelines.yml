@@ -21,7 +21,7 @@ pr:
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
-  solutionFile: PamSharp.sln
+  solution: PamSharp.sln
   buildConfiguration: Release
 
 jobs:
@@ -40,11 +40,17 @@ jobs:
   dependsOn: prepare
   condition: and(succeeded(), not(eq(variables['Build.Reason'], 'PullRequest')))
   steps:
+  - task: VSBuild@1
+    inputs:
+      solution: '$(solution)'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      msbuildArgs: '/p:Version="$(build.buildNumber)"'
   - task: DotNetCoreCLI@2
     inputs:
       command: custom
       custom: pack
-      arguments: $(solutionFile) --output $(Build.ArtifactStagingDirectory) --include-symbols /p:Configuration=$(buildConfiguration) /p:Version=$(build.buildNumber) --verbosity Minimal
+      arguments: $(solution) --output $(Build.ArtifactStagingDirectory) --include-symbols /p:Configuration=$(buildConfiguration) /p:Version=$(build.buildNumber) --verbosity Minimal
   - publish: $(Build.ArtifactStagingDirectory)
     artifact: packages
 
@@ -52,11 +58,12 @@ jobs:
   dependsOn: prepare
   condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
   steps:
-  - task: DotNetCoreCLI@2
+  - task: VSBuild@1
     inputs:
-      command: 'build'
-      projects: $(solutionFile)
-      arguments: '/p:Configuration=$(buildConfiguration) /p:Version=$(build.buildNumber) --verbosity Minimal'
+      solution: '$(solution)'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      msbuildArgs: '/p:Version="$(build.buildNumber)"'
 
 - job: test
   dependsOn: prepare
