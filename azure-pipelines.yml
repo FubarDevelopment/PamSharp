@@ -9,6 +9,9 @@ trigger:
     - release/*
     - develop
     - master
+  tags:
+    include:
+    - v*
 
 pr:
   branches:
