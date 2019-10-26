@@ -84,7 +84,6 @@ jobs:
   variables:
     buildConfiguration: 'Debug'
   steps:
-  - script: echo "$(Build.SourceBranch)"
   - task: DotNetCoreCLI@2
     inputs:
       command: 'test'
