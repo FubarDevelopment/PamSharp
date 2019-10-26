@@ -59,6 +59,14 @@ jobs:
       command: custom
       custom: pack
       arguments: $(solution) --output $(Build.ArtifactStagingDirectory) --include-symbols /p:Configuration=$(buildConfiguration) /p:Version=$(build.buildNumber) --verbosity Minimal
+  - task: BuildQualityChecks@6
+    inputs:
+      checkWarnings: true
+      warningFailOption: 'build'
+      allowWarningVariance: true
+      warningVariance: '5'
+      showStatistics: true
+      includePartiallySucceeded: false
   - publish: $(Build.ArtifactStagingDirectory)
     artifact: packages
 
@@ -81,6 +89,14 @@ jobs:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
       msbuildArgs: '/p:Version="$(build.buildNumber)"'
+  - task: BuildQualityChecks@6
+    inputs:
+      checkWarnings: true
+      warningFailOption: 'build'
+      allowWarningVariance: true
+      warningVariance: '5'
+      showStatistics: true
+      includePartiallySucceeded: false
 
 - job: test
   displayName: Running the tests
