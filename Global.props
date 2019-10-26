@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
@@ -16,7 +16,6 @@
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)FubarDev.PamSharp.ruleset</CodeAnalysisRuleSet>
     <NoWarn>SA1636;SA1641;$(NoWarn)</NoWarn>
     <WarningsAsErrors>CS8600;CS8602;CS8603</WarningsAsErrors>
-    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
