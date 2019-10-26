@@ -54,11 +54,6 @@ jobs:
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
       msbuildArgs: '/p:Version="$(build.buildNumber)"'
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: custom
-      custom: pack
-      arguments: $(solution) --output $(Build.ArtifactStagingDirectory) --include-symbols /p:Configuration=$(buildConfiguration) /p:Version=$(build.buildNumber) --verbosity Minimal
   - task: BuildQualityChecks@6
     inputs:
       checkWarnings: true
@@ -71,6 +66,11 @@ jobs:
       warningFilters: |
         /##\[warning\].+CS.+:/i
         /##\[warning\].+SA.+:/i
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: custom
+      custom: pack
+      arguments: $(solution) --output $(Build.ArtifactStagingDirectory) --include-symbols /p:Configuration=$(buildConfiguration) /p:Version=$(build.buildNumber) --verbosity Minimal
   - publish: $(Build.ArtifactStagingDirectory)
     artifact: packages
 
